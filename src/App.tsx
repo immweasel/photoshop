@@ -187,8 +187,7 @@ function App() {
     const [canvas, ctx] = getCanvasNCtx(canvasRef);
     const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height)
     const newData = getNewDataNearestNeighbour(imageData, newWidth, newHeight);
-    setLoadedImage({...loadedImage, imageUri: newData});
-    setModal({ ...modal, show: false }); // Закрыть модальное окно
+    setLoadedImage({...loadedImage, imageUri: newData})
   };
 
   const downloadImage = () => {
@@ -263,7 +262,6 @@ function App() {
 
   const changeLoadedImage = (data: string) => {
     setLoadedImage({...loadedImage, imageUri: data});
-    setModal({ ...modal, show: false }); // Закрыть модальное окно
   };
 
   return (
