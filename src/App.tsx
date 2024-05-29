@@ -194,6 +194,7 @@ function App() {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
+    if (!ctx) return; // Добавлена проверка на null для ctx
     const img = new Image();
     img.src = loadedImage.imageUri;
     img.onload = () => {
@@ -206,6 +207,7 @@ function App() {
       link.click();
     };
   };
+  
 
   const openModal = (
     title: string,
