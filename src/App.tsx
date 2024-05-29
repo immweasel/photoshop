@@ -187,17 +187,25 @@ function App() {
     const [canvas, ctx] = getCanvasNCtx(canvasRef);
     const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height)
     const newData = getNewDataNearestNeighbour(imageData, newWidth, newHeight);
-    setLoadedImage({...loadedImage, imageUri: newData})
+    setLoadedImage({...loadedImage, imageUri: newData});
+    setModal({ ...modal, show: false }); // Закрыть модальное окно
   };
 
   const downloadImage = () => {
-    const [canvas, _] = getCanvasNCtx(canvasRef);
-    changeImageScale(100);
-    const image = canvas.toDataURL();
-    const aDownloadLink = document.createElement('a');
-    aDownloadLink.download = 'canvas_image.png';
-    aDownloadLink.href = image;
-    aDownloadLink.click();
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const img = new Image();
+    img.src = loadedImage.imageUri;
+    img.onload = () => {
+      canvas.width = img.width;
+      canvas.height = img.height;
+      ctx.drawImage(img, 0, 0);
+      const link = document.createElement('a');
+      link.href = canvas.toDataURL('image/png');
+      link.download = 'edited-image.png';
+      link.click();
+    };
   };
 
   const openModal = (
@@ -255,6 +263,7 @@ function App() {
 
   const changeLoadedImage = (data: string) => {
     setLoadedImage({...loadedImage, imageUri: data});
+    setModal({ ...modal, show: false }); // Закрыть модальное окно
   };
 
   return (

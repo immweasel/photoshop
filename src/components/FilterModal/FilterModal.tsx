@@ -201,7 +201,7 @@ const FilterModal = ({
         />
       </div>
       <div className="filter-btns">
-        <Button type='primary' onClick={ applyFiltration }>Изменить</Button>
+        <Button type='link' onClick={ applyFiltration }>Изменить</Button>
         <Checkbox checked={ isPreview } onClick={ handlePreview }>Предпросмотр</Checkbox>
         <Button onClick={ resetValues }>Сбросить</Button>
       </div>

@@ -274,7 +274,7 @@ const CurvesModal = ({
         }}
       />
       <div className="curves-btns">
-        <Button type='primary' onClick={ () => changeGammaCorrection() }>Изменить</Button>
+        <Button type='link' onClick={ () => changeGammaCorrection() }>Изменить</Button>
         <Checkbox checked={ isPreview } onClick={ () => setIsPreview(!isPreview) }>Предпросмотр</Checkbox>
         <Button onClick={ resetCurvePoints }>Сбросить</Button>
       </div>

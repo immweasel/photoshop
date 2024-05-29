@@ -152,14 +152,12 @@ const ChangeSizeModal = ({
           defaultValue="closestNeighbour"
           onChange={ (value) => setAlgorithm(value) }
           options={[
-            { value: 'closestNeighbour', label: 'Ближайший сосед'},
-            { value: 'bilinear', label: 'Билинейный'},
-            { value: 'bicubic', label: 'Бикубический'},
+            { value: 'closestNeighbour', label: 'Ближайший сосед'}
           ]}
         />
       </Space>
       <Space>
-        <Button type='primary' onClick={ () => onChangeSizeSubmit(calcWidthHeight()[0], calcWidthHeight()[1]) }>
+        <Button type='link' onClick={ () => onChangeSizeSubmit(calcWidthHeight()[0], calcWidthHeight()[1]) }>
           Изменить
         </Button>
       </Space>

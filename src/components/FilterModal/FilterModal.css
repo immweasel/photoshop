@@ -1,3 +1,10 @@
+.popup {
+  background-color: #ffffff; /* белый фон */
+  padding: 1em; /* внутренний отступ */
+  border-radius: 8px; /* скругленные углы */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* тень */
+}
+
 .filter-inputs {
   margin-top: 1em;
   display: flex;
