@@ -317,7 +317,7 @@ function App() {
           <Button className="download" type="default" onClick={ downloadImage }>
             Сохранить
           </Button>
-          <Button className="curves" type="default" onClick={ () => {
+          {/* <Button className="curves" type="default" onClick={ () => {
             setImageScale(100);  
             openModal(
               "Коррекция градиента",
@@ -328,8 +328,8 @@ function App() {
             )
           }}>
             Кривые
-          </Button>
-          <Button className="filtration" type="default" onClick={ () => {
+          </Button> */}
+          {/* <Button className="filtration" type="default" onClick={ () => {
             setImageScale(100);  
             openModal(
               "Фильтрация",
@@ -340,7 +340,7 @@ function App() {
             )
           }}>
             Фильтры
-          </Button>
+          </Button> */}
         </div>
         <div className="work-panel">
           { currentTool === 0
