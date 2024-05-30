@@ -1,59 +1,58 @@
-import { InboxOutlined } from '@ant-design/icons';
-import type { UploadProps } from 'antd';
-import { UploadRequestOption } from 'rc-upload/lib/interface';
-import { message, Upload } from 'antd';
-import './FileUpload.css';
+import { InboxOutlined } from '@ant-design/icons'; // Импорт иконки для компонента загрузки
+import type { UploadProps } from 'antd'; // Импорт типа свойств компонента загрузки из Ant Design
+import { UploadRequestOption } from 'rc-upload/lib/interface'; // Импорт интерфейса опций запроса загрузки из rc-upload
+import { message, Upload } from 'antd'; // Импорт сообщений и компонента загрузки из Ant Design
+import './FileUpload.css'; // Импорт стилей компонента загрузки
 
-const { Dragger } = Upload;
+const { Dragger } = Upload; // Деструктуризация компонента Dragger из компонента Upload
 
-const props: UploadProps = {
-  name: 'file',
-  multiple: true,
-  action: '',
-  onChange(info) {
-    const { status } = info.file;
-    if (status !== 'uploading') {
-      console.log(info.file, info.fileList);
+const props: UploadProps = { // Определение свойств компонента загрузки
+  name: 'file', // Имя поля для загружаемого файла
+  multiple: true, // Разрешение на загрузку нескольких файлов
+  action: '', // URL-адрес для обработки запроса загрузки (в нашем случае пустой)
+  onChange(info) { // Обработчик события изменения состояния загрузки файла
+    const { status } = info.file; // Получение статуса загруженного файла
+    if (status !== 'uploading') { // Если файл не находится в процессе загрузки
+      console.log(info.file, info.fileList); // Вывод информации о файле в консоль
     }
-    if (status === 'done') {
-      message.success(`${info.file.name} file uploaded successfully.`);
-    } else if (status === 'error') {
-      message.error(`${info.file.name} file upload failed.`);
+    if (status === 'done') { // Если загрузка файла завершена успешно
+      message.success(`${info.file.name} file uploaded successfully.`); // Вывод сообщения об успешной загрузке
+    } else if (status === 'error') { // Если произошла ошибка при загрузке файла
+      message.error(`${info.file.name} file upload failed.`); // Вывод сообщения об ошибке загрузки
     }
   },
-  onDrop(e) {
-    console.log('Dropped files', e.dataTransfer.files);
+  onDrop(e) { // Обработчик события "drop" (бросания) файлов в область загрузки
+    console.log('Dropped files', e.dataTransfer.files); // Вывод информации о выбранных файлах в консоль
   },
 };
 
-export interface FileUploadProps {
-  onSuccessUpload: (file: any) => void
+export interface FileUploadProps { // Интерфейс свойств компонента FileUpload
+  onSuccessUpload: (file: any) => void // Функция обратного вызова, вызываемая при успешной загрузке файла
 }
 
-const FileUpload = ({
+const FileUpload = ({ // Определение компонента загрузки файлов
   onSuccessUpload
 }: FileUploadProps) => {
-  const handleUpload = (options: UploadRequestOption) => {
-    onSuccessUpload(options.file)
+  const handleUpload = (options: UploadRequestOption) => { // Функция для обработки загрузки файла
+    onSuccessUpload(options.file); // Вызов функции обратного вызова при успешной загрузке файла
   }
 
-  return (
+  return ( // Возвращение компонента Dragger для загрузки файлов
     <Dragger 
-      accept="image/*"
-      showUploadList={ false }
-      customRequest={ (options) => handleUpload(options) } 
-      maxCount={ 1 } {...props}
+      accept="image/*" // Разрешение на загрузку файлов только типа image
+      showUploadList={ false } // Скрытие списка загружаемых файлов
+      customRequest={ (options) => handleUpload(options) } // Пользовательская обработка запроса загрузки файла
+      maxCount={ 1 } {...props} // Ограничение на количество загружаемых файлов (в нашем случае 1) и передача свойств компонента загрузки
     >
-      <p className="ant-upload-drag-icon">
+      <p className="ant-upload-drag-icon"> 
         <InboxOutlined />
       </p>
-      <p className="ant-upload-text">Click or drag file to this area to upload</p>
+      <p className="ant-upload-text">Нажмите или перенесите файл для загрузки</p> 
       <p className="ant-upload-hint">
-        Support for a single upload. Strictly prohibited from uploading company data or other
-        banned files.
+      Поддержка одной загрузки. Строго запрещено загружать данные компании или другие запрещенные файлы.
       </p>
     </Dragger>
   )
 };
 
-export default FileUpload;
+export default FileUpload; // Экспорт компонента FileUpload для использования в других частях приложения

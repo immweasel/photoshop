@@ -9,18 +9,21 @@ import FilterModal from './components/FilterModal/FilterModal';
 import getCanvasNCtx from './utils/getCanvasNCtx';
 import './App.css'
 
+// Интерфейс для загруженного изображения
 export interface LoadedImageI {
   imageUri: string
   imageOriginalWidth: number
   imageOriginalHeight: number
 }
 
+// Интерфейс для информации о пикселе
 export interface PixelInfoI {
   rgb: [number, number, number]
   x: number
   y: number
 }
 
+// Интерфейс для модального окна
 interface ModalI {
   show: boolean
   title: string
@@ -28,15 +31,20 @@ interface ModalI {
 }
 
 function App() {
+  // Создаем ссылки для доступа к DOM элементам
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const imgViewRef = useRef<HTMLDivElement>(null);
+  
+  // Состояние для управления перетаскиванием изображения
   const dragRef = useRef({
     drag: false,
     startX: 0,
     startY: 0,
     scrollX: 0,
     scrollY: 0,
-  })
+  });
+
+  // Состояния для хранения данных изображения и интерфейса
   const [loadedImage, setLoadedImage] = useState<LoadedImageI>({
     imageUri: '',
     imageOriginalWidth: 0,
@@ -47,7 +55,7 @@ function App() {
     rgb: [0, 0, 0],
     x: 0,
     y: 0,
-  })
+  });
   const [modal, setModal] = useState<ModalI>({
     show: false,
     title: '',
@@ -65,6 +73,7 @@ function App() {
     y: 0
   });
 
+  // Эффект для загрузки и отрисовки изображения при изменении URI изображения
   useEffect(() => {
     const imgPromise = imageUriToImgPromise(loadedImage.imageUri);
     imgPromise.then((img) => {
@@ -74,16 +83,18 @@ function App() {
         imageOriginalWidth: img.naturalWidth, 
         imageOriginalHeight: img.naturalHeight}
       );
-    })
-  }, [loadedImage.imageUri])
+    });
+  }, [loadedImage.imageUri]);
 
+  // Эффект для изменения масштаба изображения
   useEffect(() => {
     changeImageScale(scale);
-  }, [scale])
+  }, [scale]);
 
+  // Преобразование URI изображения в объект Image
   const imageUriToImgPromise = (uri: string): Promise<HTMLImageElement> => {
     return new Promise(function (resolve, _) {
-      const img = new Image()
+      const img = new Image();
       img.src = uri;
       img.onload = () => {
         resolve(img);
@@ -91,14 +102,16 @@ function App() {
     });
   };
 
+  // Отрисовка изображения на канвасе
   const renderImage = () => {
     const [canvas, ctx] = getCanvasNCtx(canvasRef);
     const imgPromise = imageUriToImgPromise(loadedImage.imageUri);
     imgPromise.then((img) => {
       ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
     });
-  }
+  };
 
+  // Полная отрисовка изображения с учетом масштабирования
   const renderImageFull = (img: HTMLImageElement) => {
     const [canvas, _] = getCanvasNCtx(canvasRef);
     
@@ -115,8 +128,9 @@ function App() {
     
     setImageScale(Math.floor(scale * 100));
     renderImage();
-  }
+  };
 
+  // Изменение масштаба изображения
   const changeImageScale = (scale: number) => {
     const [canvas, _] = getCanvasNCtx(canvasRef);
     
@@ -127,16 +141,18 @@ function App() {
       canvas.width = img.width * scaleMultiplyer;
       canvas.height = img.height * scaleMultiplyer;
       renderImage();
-    })
-  }
+    });
+  };
 
+  // Загрузка изображения в канвас
   const uploadImageToCanvas = (file: File) => {
     setLoadedImage({
       ...loadedImage,
       imageUri: URL.createObjectURL(file),
-    })
-  }
+    });
+  };
 
+  // Получение информации о пикселе при клике на канвас
   const getPixelInfo = (e: React.MouseEvent<HTMLCanvasElement>) => {
     const [_, ctx] = getCanvasNCtx(canvasRef);
     const mouseX = e.nativeEvent.offsetX;
@@ -146,51 +162,57 @@ function App() {
       p: p,
       x: mouseX,
       y: mouseY,
-    }
-  }
+    };
+  };
 
+  // Обновление информации о пикселе при перемещении мыши по канвасу
   const pixelInfoChange = (e: React.MouseEvent<HTMLCanvasElement>) => {
-    const {p, x, y} = getPixelInfo(e);
+    const { p, x, y } = getPixelInfo(e);
     setPixelInfo({ 
       rgb: [p[0], p[1], p[2]], 
       x: x, 
       y: y, 
-    }) 
-  }
+    }); 
+  };
 
+  // Изменение цвета в зависимости от текущего инструмента и нажатия клавиш
   const colorChange = (e: React.MouseEvent<HTMLCanvasElement>) => {
     if (currentTool !== 1) return;
-    const {p, x, y} = getPixelInfo(e);
+    const { p, x, y } = getPixelInfo(e);
     if (e.altKey) {
       return setColor2({ 
         rgb: [p[0], p[1], p[2]], 
         x: x, 
         y: y, 
-      }) 
+      }); 
     }
     return setColor1({ 
       rgb: [p[0], p[1], p[2]], 
       x: x, 
       y: y, 
-    }) 
-  }
+    }); 
+  };
 
+  // Обработка изменения масштаба слайдером
   const onSliderChange = (scale: number) => {
     setImageScale(scale);
-  }
+  };
 
+  // Изменение текущего инструмента
   const onCurrentToolChange = (id: number) => {
     setCurrentTool(id);
-  }
+  };
 
-  const resizeImage =(newWidth: number, newHeight: number) => {
+  // Изменение размера изображения
+  const resizeImage = (newWidth: number, newHeight: number) => {
     const [canvas, ctx] = getCanvasNCtx(canvasRef);
-    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height)
+    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
     const newData = getNewDataNearestNeighbour(imageData, newWidth, newHeight);
-    setLoadedImage({...loadedImage, imageUri: newData});
+    setLoadedImage({ ...loadedImage, imageUri: newData });
     setModal({ ...modal, show: false }); // Закрыть модальное окно
   };
 
+  // Скачивание изображения
   const downloadImage = () => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -209,6 +231,7 @@ function App() {
     };
   };
 
+  // Открытие модального окна
   const openModal = (
     title: string,
     content: React.ReactNode
@@ -218,9 +241,10 @@ function App() {
       show: true,
       title: title,
       content: content
-    })
+    });
   };
 
+  // Обработка начала перетаскивания изображения
   const onImgViewMouseDown = (e: React.MouseEvent) => {
     const imgView = e.target as HTMLDivElement;
     dragRef.current = {
@@ -232,14 +256,16 @@ function App() {
     imgViewRef.current!!.style.cursor = "grabbing";
   };
 
+  // Обработка завершения перетаскивания изображения
   const onImgViewMouseUp = () => {
     dragRef.current.drag = false;
     imgViewRef.current!!.style.cursor = "auto";
-  }
+  };
 
+  // Обработка перетаскивания изображения
   const onImgViewMouseMove = (e: React.MouseEvent) => {
     e.preventDefault();
-    if (!dragRef.current.drag || !imgViewRef.current ) return;
+    if (!dragRef.current.drag || !imgViewRef.current) return;
     
     const maxScrollLeft = imgViewRef.current.scrollWidth - imgViewRef.current.clientWidth;
     const maxScrollTop = imgViewRef.current.scrollHeight - imgViewRef.current.clientHeight;
@@ -250,8 +276,8 @@ function App() {
     const walkX = (x - dragRef.current.startX) * 1;
     const walkY = (y - dragRef.current.startY) * 1;
 
-    if ((imgViewRef.current.scrollLeft - walkX >= maxScrollLeft && maxScrollLeft !== 0) || (imgViewRef.current.scrollLeft - walkX < 0 && maxScrollLeft !== 0)) return
-    if ((imgViewRef.current.scrollTop - walkY >= maxScrollTop && maxScrollTop !== 0) || (imgViewRef.current.scrollTop - walkY < 0  && maxScrollTop !== 0)) return
+    if ((imgViewRef.current.scrollLeft - walkX >= maxScrollLeft && maxScrollLeft !== 0) || (imgViewRef.current.scrollLeft - walkX < 0 && maxScrollLeft !== 0)) return;
+    if ((imgViewRef.current.scrollTop - walkY >= maxScrollTop && maxScrollTop !== 0) || (imgViewRef.current.scrollTop - walkY < 0  && maxScrollTop !== 0)) return;
     
     imgViewRef.current.scrollLeft = dragRef.current.scrollX - walkX;
     dragRef.current.scrollX = dragRef.current.scrollX - walkX;
@@ -260,10 +286,11 @@ function App() {
     imgViewRef.current.scrollTop = dragRef.current.scrollY - walkY;
     dragRef.current.scrollY = dragRef.current.scrollY - walkY;
     dragRef.current.startY = y;
-  }
+  };
 
+  // Изменение загруженного изображения
   const changeLoadedImage = (data: string) => {
-    setLoadedImage({...loadedImage, imageUri: data});
+    setLoadedImage({ ...loadedImage, imageUri: data });
     setModal({ ...modal, show: false }); // Закрыть модальное окно
   };
 
@@ -344,7 +371,6 @@ function App() {
                 onClick={ colorChange }
               />
             </div>
-
           }
           <SideMenu
             loadedImage={ loadedImage }
@@ -361,14 +387,14 @@ function App() {
       <Modal 
         title={ modal.title } 
         open={ modal.show } 
-        onCancel={ () => setModal({...modal, show: false}) }
-        onOk={ () => setModal({...modal, show: false}) }
+        onCancel={ () => setModal({ ...modal, show: false }) }
+        onOk={ () => setModal({ ...modal, show: false }) }
         footer={[]}
       >
         { modal.content }
       </Modal>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
