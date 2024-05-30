@@ -87,6 +87,7 @@ const ChangeSizeModal = ({ // Компонент для изменения ра�
     <Flex vertical gap="large"> 
       <Flex gap='middle' align='end'> 
         <Space direction='vertical'> 
+        <p>Текущее количество пикселей: {(width * height) / 1000000} мегапикселей</p>
           <Space> 
             Высота
             { measure.type === 'pixels' // Проверка типа единиц измерения

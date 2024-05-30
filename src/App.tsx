@@ -289,10 +289,10 @@ function App() {
   };
 
   // Изменение загруженного изображения
-  // const changeLoadedImage = (data: string) => {
-  //   setLoadedImage({ ...loadedImage, imageUri: data });
-  //   setModal({ ...modal, show: false }); // Закрыть модальное окно
-  // };
+  const changeLoadedImage = (data: string) => {
+    setLoadedImage({ ...loadedImage, imageUri: data });
+    setModal({ ...modal, show: false }); // Закрыть модальное окно
+  };
 
   return (
     <div className="container">
@@ -329,18 +329,18 @@ function App() {
           }}>
             Кривые
           </Button>
-          <Button className="filtration" type="default" onClick={ () => {
+          {/* <Button className="filtration" type="default" onClick={ () => {
             setImageScale(100);  
-            // openModal(
-            //   "Фильтрация",
-            //   <FilterModal 
-            //     imageRef={ canvasRef }
-            //     onFilterChange={ (data) => changeLoadedImage(data) }
-            //   />
-            // )
+            openModal(
+              "Фильтрация",
+              <FilterModal 
+                imageRef={ canvasRef }
+                onFilterChange={ (data) => changeLoadedImage(data) }
+              />
+            )
           }}>
             Фильтры
-          </Button>
+          </Button> */}
         </div>
         <div className="work-panel">
           { currentTool === 0

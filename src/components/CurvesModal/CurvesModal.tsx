@@ -280,7 +280,7 @@ const CurvesModal = ({
           }}
       />
       <div className="curves-btns">
-        <Button type='primary' onClick={() => {
+        <Button type='link' onClick={() => {
           changeGammaCorrection();
           closeModal();
         }}>Изменить</Button>
