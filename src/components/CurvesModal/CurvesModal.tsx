@@ -6,7 +6,7 @@ import './CurvesModal.css';
 export interface CurvesModalProps {
   imageRef: React.RefObject<HTMLCanvasElement>
   onGammaCorrectionChange: (data: string) => void;
-  // closeModal: () => void;
+  closeModal: () => void;
 }
 
 interface ColorRowsI {
@@ -18,7 +18,7 @@ interface ColorRowsI {
 const CurvesModal = ({
                        imageRef: imageRef,
                        onGammaCorrectionChange,
-                      //  closeModal
+                       closeModal
                      }: CurvesModalProps) => {
   const histRef = useRef<HTMLCanvasElement>(null);
   const previewRef = useRef<HTMLCanvasElement>(null);
@@ -282,7 +282,7 @@ const CurvesModal = ({
       <div className="curves-btns">
         <Button type='link' onClick={() => {
           changeGammaCorrection();
-          // closeModal();
+          closeModal();
         }}>Изменить</Button>
         <Checkbox checked={isPreview} onClick={() => setIsPreview(!isPreview)}>Предпросмотр</Checkbox>
         <Button onClick={resetCurvePoints}>Сбросить</Button>

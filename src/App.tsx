@@ -244,6 +244,10 @@ function App() {
     });
   };
 
+  const closeModal = () => {
+    setModal({...modal, show: false});
+  }
+
   // Обработка начала перетаскивания изображения
   const onImgViewMouseDown = (e: React.MouseEvent) => {
     const imgView = e.target as HTMLDivElement;
@@ -324,7 +328,7 @@ function App() {
               <CurvesModal 
                 imageRef={ canvasRef }
                 onGammaCorrectionChange={ (data) => changeLoadedImage(data) }
-                // closeModal={closeModal}
+                closeModal={closeModal}
               />
             )
           }}>
