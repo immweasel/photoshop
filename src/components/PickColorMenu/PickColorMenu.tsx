@@ -29,8 +29,8 @@ const PickColorMenu = memo(function PickColorMenu({
         <div style={{ background: `rgb(${[...color2.rgb]})` }} className='pick-color' />
         <div className="pick-colors">
           <p>{ `RGB(${color2.rgb})` }</p>
-          <p>{ `XYZ(${color2.rgb})` }</p>
-          <p>{ `LAB(${color2.rgb})` }</p>
+          <p>{ `XYZ(${rgbToXyz(color2.rgb)})` }</p>
+          <p>{ `LAB(${rgbToLab(color2.rgb)})` }</p>
         </div>
       </div>
       <p>{ `X${color2.x}; Y${color2.y}` }</p>
