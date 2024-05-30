@@ -161,7 +161,7 @@ function App() {
   const colorChange = (e: React.MouseEvent<HTMLCanvasElement>) => {
     if (currentTool !== 1) return;
     const {p, x, y} = getPixelInfo(e);
-    if (e.ctrlKey) {
+    if (e.altKey) {
       return setColor2({ 
         rgb: [p[0], p[1], p[2]], 
         x: x, 
@@ -187,14 +187,15 @@ function App() {
     const [canvas, ctx] = getCanvasNCtx(canvasRef);
     const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height)
     const newData = getNewDataNearestNeighbour(imageData, newWidth, newHeight);
-    setLoadedImage({...loadedImage, imageUri: newData})
+    setLoadedImage({...loadedImage, imageUri: newData});
+    setModal({ ...modal, show: false }); // Закрыть модальное окно
   };
 
   const downloadImage = () => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
-    if (!ctx) return; // Добавлена проверка на null для ctx
+    if (!ctx) return;
     const img = new Image();
     img.src = loadedImage.imageUri;
     img.onload = () => {
@@ -207,7 +208,6 @@ function App() {
       link.click();
     };
   };
-  
 
   const openModal = (
     title: string,
@@ -264,6 +264,7 @@ function App() {
 
   const changeLoadedImage = (data: string) => {
     setLoadedImage({...loadedImage, imageUri: data});
+    setModal({ ...modal, show: false }); // Закрыть модальное окно
   };
 
   return (
