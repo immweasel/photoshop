@@ -4,7 +4,7 @@ import ChangeSizeModal from './components/ChangeSizeModal/ChangeSizeModal';
 import tabsItemsOnFunc from './utils/tabsItemsOnFunc';
 import getNewDataNearestNeighbour from './utils/getNewDataNearestNeighbour';
 import SideMenu from './components/SideMenu/SideMenu';
-// import CurvesModal from './components/CurvesModal/CurvesModal';
+import CurvesModal from './components/CurvesModal/CurvesModal';
 // import FilterModal from './components/FilterModal/FilterModal';
 import getCanvasNCtx from './utils/getCanvasNCtx';
 import './App.css'
@@ -319,13 +319,13 @@ function App() {
           </Button>
           <Button className="curves" type="default" onClick={ () => {
             setImageScale(100);  
-            // openModal(
-            //   "Коррекция градиента",
-            //   <CurvesModal 
-            //     imageRef={ canvasRef }
-            //     onGammaCorrectionChange={ (data) => changeLoadedImage(data) }
-            //   />
-            // )
+            openModal(
+              "Коррекция градиента",
+              <CurvesModal 
+                imageRef={ canvasRef }
+                onGammaCorrectionChange={ (data) => changeLoadedImage(data) }
+              />
+            )
           }}>
             Кривые
           </Button>
