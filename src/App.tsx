@@ -324,6 +324,7 @@ function App() {
               <CurvesModal 
                 imageRef={ canvasRef }
                 onGammaCorrectionChange={ (data) => changeLoadedImage(data) }
+                // closeModal={closeModal}
               />
             )
           }}>
