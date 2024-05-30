@@ -4,8 +4,8 @@ import ChangeSizeModal from './components/ChangeSizeModal/ChangeSizeModal';
 import tabsItemsOnFunc from './utils/tabsItemsOnFunc';
 import getNewDataNearestNeighbour from './utils/getNewDataNearestNeighbour';
 import SideMenu from './components/SideMenu/SideMenu';
-import CurvesModal from './components/CurvesModal/CurvesModal';
-import FilterModal from './components/FilterModal/FilterModal';
+// import CurvesModal from './components/CurvesModal/CurvesModal';
+// import FilterModal from './components/FilterModal/FilterModal';
 import getCanvasNCtx from './utils/getCanvasNCtx';
 import './App.css'
 
@@ -289,10 +289,10 @@ function App() {
   };
 
   // Изменение загруженного изображения
-  const changeLoadedImage = (data: string) => {
-    setLoadedImage({ ...loadedImage, imageUri: data });
-    setModal({ ...modal, show: false }); // Закрыть модальное окно
-  };
+  // const changeLoadedImage = (data: string) => {
+  //   setLoadedImage({ ...loadedImage, imageUri: data });
+  //   setModal({ ...modal, show: false }); // Закрыть модальное окно
+  // };
 
   return (
     <div className="container">
