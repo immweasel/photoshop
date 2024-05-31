@@ -341,6 +341,7 @@ function App() {
               <FilterModal 
                 imageRef={ canvasRef }
                 onFilterChange={ (data) => changeLoadedImage(data) }
+                closeModal={closeModal}
               />
             )
           }}>
