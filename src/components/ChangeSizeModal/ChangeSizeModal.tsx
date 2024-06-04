@@ -25,61 +25,77 @@ const ChangeSizeModal = ({ // Компонент для изменения ра�
 
   useEffect(() => { // Эффект для обновления значений размеров при изменении свойств width и height
     setMeasure({...measure, width: width, height: height});
-  }, [width, height])
+  }, [width, height]);
+
+  useEffect(() => {
+    if (measure.proportionFix) {
+      if (measure.width !== width) {
+        const proportion = measure.width / width;
+        setMeasure({...measure, height: Math.round(height * proportion)});
+      } else if (measure.height !== height) {
+        const proportion = measure.height / height;
+        setMeasure({...measure, width: Math.round(width * proportion)});
+      }
+    }
+  }, [measure.proportionFix, measure.width, measure.height]);
 
   const onHeightChange = (e: KeyboardEvent<HTMLInputElement>) => { // Обработчик изменения высоты
     const value = parseInt((e.target as HTMLInputElement).value); // Получение значения из события
-    if (value === null) { // Проверка на null
+    if (isNaN(value)) { // Проверка на NaN
       return; // Возврат
     }
     if (measure.proportionFix) { // Проверка сохранения пропорций
       const proportion = value / measure.height; // Расчет пропорции
-      return setMeasure({...measure, height: value, width: Math.round(measure.width * proportion) || 1 }); // Установка новых размеров с сохранением пропорций
+      setMeasure({...measure, height: value, width: Math.round(measure.width * proportion) || 1 }); // Установка новых размеров с сохранением пропорций
+    } else {
+      setMeasure({...measure, height: value}) // Установка новой высоты без сохранения пропорций
     }
-    return setMeasure({...measure, height: value}) // Установка новой высоты без сохранения пропорций
   }
 
   const onWidthChange = (e: KeyboardEvent<HTMLInputElement>) => { // Обработчик изменения ширины
     const value = parseInt((e.target as HTMLInputElement).value); // Получение значения из события
-    if (value === null) { // Проверка на null
+    if (isNaN(value)) { // Проверка на NaN
       return; // Возврат
     }
     if (measure.proportionFix) { // Проверка сохранения пропорций
       const proportion = value / measure.width; // Расчет пропорции
-      return setMeasure({...measure, width: value, height: Math.round(measure.height * proportion) || 1 }); // Установка новых размеров с сохранением пропорций
+      setMeasure({...measure, width: value, height: Math.round(measure.height * proportion) || 1 }); // Установка новых размеров с сохранением пропорций
+    } else {
+      setMeasure({...measure, width: value}) // Установка новой ширины без сохранения пропорций
     }
-    return setMeasure({...measure, width: value}) // Установка новой ширины без сохранения пропорций
   }
 
   const onPHeightChange = (e: KeyboardEvent<HTMLInputElement>) => { // Обработчик изменения процента высоты
     const value = parseInt((e.target as HTMLInputElement).value); // Получение значения из события
-    if (value === null) { // Проверка на null
+    if (isNaN(value)) { // Проверка на NaN
       return; // Возврат
     }
     const proportion = value / measure.pHeight; // Расчет пропорции
     if (measure.proportionFix) { // Проверка сохранения пропорций
-      return setMeasure({...measure, pHeight: value, pWidth: Math.round(measure.pWidth * proportion) || 1}); // Установка новых размеров с сохранением пропорций
+      setMeasure({...measure, pHeight: value, pWidth: Math.round(measure.pWidth * proportion) || 1}); // Установка новых размеров с сохранением пропорций
+    } else {
+      setMeasure({...measure, pHeight: value}) // Установка нового процента высоты без сохранения пропорций
     }
-    return setMeasure({...measure, pHeight: value}) // Установка нового процента высоты без сохранения пропорций
   }
 
   const onPWidthChange = (e: KeyboardEvent<HTMLInputElement>) => { // Обработчик изменения процента ширины
     const value = parseInt((e.target as HTMLInputElement).value); // Получение значения из события
-    if (value === null) { // Проверка на null
+    if (isNaN(value)) { // Проверка на NaN
       return; // Возврат
     }
     const proportion = value / measure.pWidth; // Расчет пропорции
     if (measure.proportionFix) { // Проверка сохранения пропорций
-      return setMeasure({...measure, pWidth: value, pHeight: Math.round(measure.pHeight * proportion) || 1}); // Установка новых размеров с сохранением пропорций
+      setMeasure({...measure, pWidth: value, pHeight: Math.round(measure.pHeight * proportion) || 1}); // Установка новых размеров с сохранением пропорций
+    } else {
+      setMeasure({...measure, pWidth: value}) // Установка нового процента ширины без сохранения пропорций
     }
-    return setMeasure({...measure, pWidth: value}) // Установка нового процента ширины без сохранения пропорций
   }
 
   const calcWidthHeight = () => { // Функция для расчета ширины и высоты
     if (measure.type === 'pixels') { // Проверка типа единиц измерения
-      return [measure.width, measure.height] // Возврат размеров в пикселях
+      return [measure.width, measure.height]; // Возврат размеров в пикселях
     } else { // Иначе
-      return [Math.round(measure.width * measure.pWidth / 100), Math.round(measure.height * measure.pHeight / 100)] // Возврат размеров в процентах
+      return [Math.round(measure.width * measure.pWidth / 100), Math.round(measure.height * measure.pHeight / 100)]; // Возврат размеров в процентах
     }
   }
 
@@ -88,6 +104,7 @@ const ChangeSizeModal = ({ // Компонент для изменения ра�
       <Flex gap='middle' align='end'> 
         <Space direction='vertical'> 
         <p>Текущее количество пикселей: {(width * height) / 1000000} мегапикселей</p>
+        <p>Новое количество пикселей: {(width * height) / 1000000} мегапикселей</p>
           <Space> 
             Высота
             { measure.type === 'pixels' // Проверка типа единиц измерения
