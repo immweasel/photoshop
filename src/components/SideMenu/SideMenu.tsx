@@ -55,12 +55,12 @@ const SideMenu = ({
         onChange={ onSliderChange } 
       />
       <div className="tools">
-        {/* <IconButton
+        <IconButton
           active={ currentTool === 0 }
           component={ HandSvg }
           hint="Инструмент для передвижения картинки"
           onIconButtonClick={ () => onCurrentToolChange(0) }
-        /> */}
+        />
         <IconButton
           active={ currentTool === 1 }
           component={ PipetteSvg }

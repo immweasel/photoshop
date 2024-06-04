@@ -60,10 +60,11 @@ const CurvesModal = ({
     ctx.beginPath();
     ctx.moveTo(0, 255 - curvePoints.enter.out);
     ctx.lineTo(curvePoints.enter.in, 255 - curvePoints.enter.out);
-    ctx.arc(curvePoints.enter.in, 255 - curvePoints.enter.out, 4, 0, 2 * Math.PI);
-    ctx.moveTo(curvePoints.enter.in, 255 - curvePoints.enter.out - 2);
+    ctx.arc(curvePoints.enter.in, 255 - curvePoints.enter.out, 2, 0, 2 * Math.PI);
+    ctx.moveTo(curvePoints.enter.in + 2, 255 - curvePoints.enter.out - 2);
+    // ctx.moveTo(curvePoints.enter.in - 2, 255 - curvePoints.enterPoints);
     ctx.lineTo(curvePoints.exit.in, 255 - curvePoints.exit.out);
-    ctx.arc(curvePoints.exit.in, 255 - curvePoints.exit.out, 4, 0, 2 * Math.PI);
+    ctx.arc(curvePoints.exit.in, 255 - curvePoints.exit.out, 2, 0, 2 * Math.PI);
     ctx.lineTo(255, 255 - curvePoints.exit.out);
     ctx.stroke();
 

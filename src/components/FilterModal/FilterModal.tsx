@@ -170,7 +170,7 @@ const FilterModal = ({
           {filterValues.map((value, index) => (
               <InputNumber
                   key={index}
-                  value={value}
+                  value={value ?? 0}
                   onChange={(value) => onFilterInputChange(value, index)}
                   className='filter-input'
               />
