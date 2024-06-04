@@ -131,7 +131,8 @@ const CurvesModal = ({
       ctx.fillStyle = 'rgba(0, 0, 255, 0.65)';
     }
     for (let i of [...data[color].keys()].sort()) {
-      
+
+
       const h = Math.floor(data[color].get(i)! * 256 / maxVal);
       ctx.fillRect(i, canvas.height, 1, -h);
     }
@@ -226,70 +227,71 @@ const CurvesModal = ({
     tempCtx?.putImageData(tempImageData, 0, 0);
     onGammaCorrectionChange(tempCanvas.toDataURL());
   };
-  
+
+
   return (
-    <div className='curves-modal'>
-      <canvas
-          ref={ histRef }
-          className='hist-canvas'
-          width={ 256 }
-          height={ 256 }
-      />
-      <div className="curves-inputs">
-        <div className="curves-input">
-          <p className='curves-input-label'>In</p>
-          <InputNumber
-              min={ 0 }
-              max={ 255 }
-              value={ curvePoints.enter.in }
-              onPressEnter={ (e) => changeCurvePoints(e, "enter", "in") }
-              placeholder='In'
-          />
-          <p className='curves-input-label'>Out</p>
-          <InputNumber
-              min={ 0 }
-              max={ 255 }
-              value={ curvePoints.enter.out }
-              onPressEnter={ (e) => changeCurvePoints(e, "enter", "out") }
-              placeholder='Out'
-          />
+      <div className='curves-modal'>
+        <canvas
+            ref={ histRef }
+            className='hist-canvas'
+            width={ 256 }
+            height={ 256 }
+        />
+        <div className="curves-inputs">
+          <div className="curves-input">
+            <p className='curves-input-label'>In</p>
+            <InputNumber
+                min={ 0 }
+                max={ 255 }
+                value={ curvePoints.enter.in }
+                onPressEnter={ (e) => changeCurvePoints(e, "enter", "in") }
+                placeholder='In'
+            />
+            <p className='curves-input-label'>Out</p>
+            <InputNumber
+                min={ 0 }
+                max={ 255 }
+                value={ curvePoints.enter.out }
+                onPressEnter={ (e) => changeCurvePoints(e, "enter", "out") }
+                placeholder='Out'
+            />
+          </div>
+          <div className="curves-input">
+            <p className='curves-input-label'>In</p>
+            <InputNumber
+                min={ 0 }
+                max={ 255 }
+                value={ curvePoints.exit.in }
+                onPressEnter={ (e) => changeCurvePoints(e, "exit", "in") }
+                placeholder='In'
+            />
+            <p className='curves-input-label'>Out</p>
+            <InputNumber
+                min={ 0 }
+                max={ 255 }
+                value={ curvePoints.exit.out }
+                onPressEnter={ (e) => changeCurvePoints(e, "exit", "out") }
+                placeholder='Out'
+            />
+          </div>
         </div>
-        <div className="curves-input">
-          <p className='curves-input-label'>In</p>
-          <InputNumber
-              min={ 0 }
-              max={ 255 }
-              value={ curvePoints.exit.in }
-              onPressEnter={ (e) => changeCurvePoints(e, "exit", "in") }
-              placeholder='In'
-          />
-          <p className='curves-input-label'>Out</p>
-          <InputNumber
-              min={ 0 }
-              max={ 255 }
-              value={ curvePoints.exit.out }
-              onPressEnter={ (e) => changeCurvePoints(e, "exit", "out") }
-              placeholder='Out'
-          />
+        <canvas
+            ref={ previewRef }
+            className='preview'
+            style={{
+              height: !isPreview ? 0 : ''
+            }}
+        />
+        <div className="curves-btns">
+          <Button type='primary' onClick={() => {
+            changeGammaCorrection();
+            closeModal();
+          }}>Изменить</Button>
+          <Checkbox checked={isPreview} onClick={() => setIsPreview(!isPreview)}>Предпросмотр</Checkbox>
+          <Button onClick={resetCurvePoints}>Сбросить</Button>
         </div>
       </div>
-      <canvas
-          ref={ previewRef }
-          className='preview'
-          style={{
-            height: !isPreview ? 0 : ''
-          }}
-      />
-      <div className="curves-btns">
-        <Button type='link' onClick={() => {
-          changeGammaCorrection();
-          closeModal();
-        }}>Изменить</Button>
-        <Checkbox checked={isPreview} onClick={() => setIsPreview(!isPreview)}>Предпросмотр</Checkbox>
-        <Button onClick={resetCurvePoints}>Сбросить</Button>
-      </div>
-    </div>
-);
+  );
 };
 
 export default CurvesModal;
