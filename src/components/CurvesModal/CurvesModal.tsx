@@ -146,27 +146,47 @@ const CurvesModal = ({
     buildRGBColorRows(data, "b");
   };
 
+  // const changeCurvePoints = (
+  //     e: React.KeyboardEvent<HTMLInputElement>,
+  //     point: "enter" | "exit",
+  //     pointParam: "in" | "out"
+  // ) => {
+  //   const newValue = parseInt((e.target as HTMLInputElement).value);
+  //   if (pointParam === "in") {
+  //     if (point === "enter" && (newValue >= curvePoints.exit.in || newValue === curvePoints.exit.in)) return;
+  //     if (point === "exit" && (newValue <= curvePoints.enter.in || newValue === curvePoints.enter.in)) return;
+  //   }
+  //   if (pointParam === "out") {
+  //     if (point === "enter" && (newValue >= curvePoints.exit.out || newValue === curvePoints.exit.out)) return;
+  //     if (point === "exit" && (newValue <= curvePoints.enter.out || newValue === curvePoints.enter.out)) return;
+  //   }
+  //   setCurvePoints({
+  //     ...curvePoints,
+  //     [point]: {
+  //       ...curvePoints[point],
+  //       [pointParam]: newValue
+  //     }
+  //   });
+  // };
+
   const changeCurvePoints = (
-      e: React.KeyboardEvent<HTMLInputElement>,
-      point: "enter" | "exit",
-      pointParam: "in" | "out"
+    e: React.KeyboardEvent<HTMLInputElement>, 
+    point: "enter" | "exit", 
+    pointParam: "in" | "out"
   ) => {
-    const newValue = parseInt((e.target as HTMLInputElement).value);
-    if (pointParam === "in") {
-      if (point === "enter" && (newValue >= curvePoints.exit.in || newValue === curvePoints.exit.in)) return;
-      if (point === "exit" && (newValue <= curvePoints.enter.in || newValue === curvePoints.enter.in)) return;
+    if (point === "enter" && pointParam === "in") {
+      if (parseInt((e.target as HTMLInputElement).value) > curvePoints.exit.in) return;
     }
-    if (pointParam === "out") {
-      if (point === "enter" && (newValue >= curvePoints.exit.out || newValue === curvePoints.exit.out)) return;
-      if (point === "exit" && (newValue <= curvePoints.enter.out || newValue === curvePoints.enter.out)) return;
+    if (point === "exit" && pointParam === "in") {
+      if (parseInt((e.target as HTMLInputElement).value) < curvePoints.enter.in) return;
     }
     setCurvePoints({
-      ...curvePoints,
+      ...curvePoints, 
       [point]: {
-        ...curvePoints[point],
-        [pointParam]: newValue
+        ...curvePoints[point], 
+        [pointParam]: parseInt((e.target as HTMLInputElement).value)
       }
-    });
+    })
   };
 
   const resetCurvePoints = () => {
